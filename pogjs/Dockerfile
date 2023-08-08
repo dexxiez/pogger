@@ -14,7 +14,7 @@ RUN apk add --no-cache \
     wget \
     curl \
     git \
-    nodejs=18.17.* \
+    nodejs \
     && rm -rf /var/cache/apk/*
 
 # Add a user for development
