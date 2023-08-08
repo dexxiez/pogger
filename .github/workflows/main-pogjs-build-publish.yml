@@ -1,15 +1,16 @@
-name: Build, Test and Publish Pogger Images
+name: Build and Publish PogJS Image
 
 on:
   schedule:
     - cron: "20 04 * * *"
   push:
     branches: ["main"]
+    paths: ["pogjs/**", ".github/workflows/main-pogjs-build-publish.yml"]
     # Publish semver tags as releases.
     tags: ["v*.*.*"]
   pull_request:
     branches: ["main"]
-
+    paths: ["pogjs/**", ".github/workflows/main-pogjs-build-publish.yml"]
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
@@ -81,16 +82,3 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         run: |
           echo "${{ steps.meta-pogjs.outputs.tags }}" | xargs -I {} cosign sign --yes {}@${{ steps.build-and-push-pogjs.outputs.digest }}
-
-        #   # You can then repeat the above steps for other flavors.
-        #   # E.g., for flavor2:
-        #   - name: Set up Docker metadata for flavor2
-        #     id: meta-flavor2
-        #     # ... (and so on)
-
-        #   - name: Build and push Docker image for flavor2
-        #     id: build-and-push-flavor2
-        #     # ... (and so on)
-
-        #   - name: Sign the published Docker image for flavor2
-        #     # ... (and so on)
